@@ -66,6 +66,7 @@ AuthRouter.route('/register').post(async (req, res) => {
               message: 'errors',
               errors,
           })
+          break;
   }
   let users = await User.find({
     where: {
