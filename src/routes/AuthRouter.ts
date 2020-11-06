@@ -32,44 +32,41 @@ async function sendVerificationEmail(user: User) {
 
 AuthRouter.route('/register').post(async (req, res) => {
   let errors = []
-        switch (true) {
-            case !req.body:
-                errors.push('please supply a body');
-                break;
-            case !req.body.username:
-                errors.push('please supply a username');
-                break;
-            case !req.body.email:
-                errors.push('please supply an email');
-                break;
-            case !req.body.password:
-                errors.push('please supply a password')
-                break;
-            case !req.body.invite:
-                errors.push('please supply an invitation code');
-                break;
-            case req.body.password.length < 6:
-                errors.push('password must be longer than 6 characters')
-                break;
-            case !req.body.username.match(valid_username_regex):
-                errors.push('username must be alphanumeric')
-                break;
-            case !req.body.email.match(email_regex):
-                errors.push('email is not valid')
-                break;
-            case req.body.invite.length !== 40:
-                errors.push('invitation code is invalid')
-                break;
-            case errors.length > 0:
-                return res.status(400).json({
-                    success: false,
-                    message: 'errors',
-                    errors,
-                })
-            default:
-                console.log('cum');
-        }
-
+  switch (true) {
+      case !req.body:
+          errors.push('please supply a body');
+          break;
+      case !req.body.username:
+          errors.push('please supply a username');
+          break;
+      case !req.body.email:
+          errors.push('please supply an email');
+          break;
+      case !req.body.password:
+          errors.push('please supply a password')
+          break;
+      case !req.body.invite:
+          errors.push('please supply an invitation code');
+          break;
+      case req.body.password.length < 6:
+          errors.push('password must be longer than 6 characters')
+          break;
+      case !req.body.username.match(valid_username_regex):
+          errors.push('username must be alphanumeric')
+          break;
+      case !req.body.email.match(email_regex):
+          errors.push('email is not valid')
+          break;
+      case req.body.invite.length !== 40:
+          errors.push('invitation code is invalid')
+          break;
+      case errors.length > 0:
+          return res.status(400).json({
+              success: false,
+              message: 'errors',
+              errors,
+          })
+  }
   let users = await User.find({
     where: {
       lowercaseUsername: req.body.username.toLowerCase(),
